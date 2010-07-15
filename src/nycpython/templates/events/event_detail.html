@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %} Event on {{ event.date|date:"l, F jS, Y" }} {% endblock %}
+
+{% block body %}
+<h1>{{event.title}}</h1>
+
+{{ event.location }} on {{ event.date|date:"l, F jS, Y" }}
+
+<h3>Details</h3>
+
+<ul>
+  <li>Date: {{ event.date|date:"l, F jS, Y" }}</li>
+  <li>Time: {{ event.time }}</li>
+  <li>Location: {% if event.location_url %}
+    <a href="{{ event.location_url }}">{{ event.location }}</a> 
+    {% else %}
+    {{ event.location }}
+    {% endif %}
+  </li>
+  {% if event.map_url %}<li><a href="{{ event.rsvp_url }}">Map</a></li>{% endif %} 
+  {% if event.rsvp_url %}<li><a href="{{ event.rsvp_url }}">RSVP</a></li>{% endif %} 
+
+</ul>
+
+<h3>Description</h3>
+
+{{ event.general_description_html }}
+
+<h3>Presentations</h3>
+
+<ul>
+  {% for presentation in event.associated_presentations %}
+  <li><a href="{{ presentation.get_absolute_url }}">{{ presentation.title }}</a> 
+    {{ presentation.description_html }}
+
+    <br />By: 
+    {% for speaker in presentation.speaker.all %}
+
+
+{% if speaker.personal_page %}<a href="{{ speaker.get_absolute_url }}">{{ speaker.full_name }}</a>
+{% else %}
+{{ speaker.full_name }}{% endif %}{% if not forloop.last %},{% else %}{% endif %}
+
+  </li>
+  {% endfor %}
+
+</ul>
+
+{% endfor %}
+
+{% endblock %}
+
+

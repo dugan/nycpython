@@ -1,0 +1,12 @@
+bin/buildout
+bin/django
+bin/python
+parts/
+eggs/
+develop-eggs/
+src/nycpython.egg-info
+downloads/
+.installed.cfg
+*.swp
+*.pyc
+

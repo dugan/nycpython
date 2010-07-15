@@ -1,0 +1,20 @@
+{% load markup %}
+
+<h3>Details</h3>
+
+<ul>
+  <li>Date: {{ obj.date|date:"l, F jS, Y" }}</li>
+  <li>Time: {{ obj.time }}</li>
+  <li>Location: {% if obj.location_url %}
+    <a href="{{ obj.location_url }}">{{ obj.location }}</a> 
+    {% else %}
+    {{ obj.location }}
+    {% endif %}
+  </li>
+  {% if obj.map_url %}<li><a href="{{ obj.rsvp_url }}">Map</a></li>{% endif %} 
+  {% if obj.rsvp_url %}<li><a href="{{ obj.rsvp_url }}">RSVP</a></li>{% endif %} 
+
+</ul>
+
+
+{{ obj.general_description_html|markdown }}

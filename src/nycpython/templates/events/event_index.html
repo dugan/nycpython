@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %} NYC Python: Events {% endblock %}
+
+{% block hlt-events %}
+<li class="selected"><a href="">Events</a></li>
+{% endblock %}
+
+{% block middle-column-full-box %}
+
+<div class="middle-column-box-title-grey">
+<font style="text-transform: capitalize;">
+Events
+</font>
+</div>
+
+        {% for event in event_list %}
+              <p>
+	      <a href="{{ event.get_absolute_url }}"><b>{{ event.location }} on {{ event.date|date:"l, F jS, Y" }}</b></a><br>
+	      {{ event.general_description_html|markdown }}
+	      
+              </p>
+        {% endfor %}
+
+{% endblock %}

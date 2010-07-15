@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} NYC Python {% endblock %}
+
+{% block body %}
+
+<div id="upcoming" class="alpha grid_9">
+  {% if upcoming_event %}
+  <h3>Next Meeting</h3>
+  <div class="meeting"><h4>{{upcoming_event.title}} - {{upcoming_event.date|date}} @ {{upcoming_event.start_time|time}}</h4>
+      <p>{{ upcoming_event.description|safe|truncatewords_html:300 }}</p>
+    <a href="{{ upcoming_event.get_absolute_url }}">Reserve your spot today!</a></div>
+  {% else %}
+  <p>No next event is schedule yet.  <a href="http://www.meetup.com/nycpython/">Join the group</a> to get notified when one is scheduled </p>
+  {% endif %}
+</div>
+<div id="archives" class="omega grid_3">
+  <h3>Past Meetings</h3>
+  <ul>
+    {% for event in past_events %}
+    <li>
+    <div class="month">{{event.date|date:"F"}}</div>
+      <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  <a href="http://www.meetup.com/nycpython/calendar/past_list/">See all past meetups</a>
+  {% endblock %}
