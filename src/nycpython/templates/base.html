@@ -17,11 +17,13 @@
               &nbsp;
           </div>
     <div class="grid_3 user_area">
+      {% comment %}
         {% if user.is_anonymous %}
         <p> <a href="{% url meetup_login %}">Login via meetup</a></p>
         {% else %}
         <p><a href={{user.meetup.get_absolute_url}}>{{user.meetup.name}}</a> | <a href="{% url meetup_logout %}">Log out</a></p>
         {% endif %}
+      {% endcomment %}
   </div>
   </div>
       <div id="masthead">
