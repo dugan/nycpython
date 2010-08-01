@@ -23,7 +23,6 @@ class Event(models.Model):
     no_rsvps = models.IntegerField(default=0)
     maybe_rsvps = models.IntegerField(default=0)
     num_attendees = models.IntegerField(default=0)
-    total_available_rsvps = models.IntegerField(default=0)
 
     objects = EventManager()
     live = get_live_manager(EventManager)()
@@ -53,4 +52,5 @@ class Event(models.Model):
 
     @property
     def remaining_slots(self):
-        return self.total_available_rsvps - self.num_attendees
+        # Information not provided by meetup's API
+        return 0

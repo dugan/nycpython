@@ -9,8 +9,8 @@
     <p>{{ upcoming_event.description|safe|truncatewords_html:300 }} </p>
   </div>
   <div class="call-to-action">
-    <p> Can you be there?</p>
-    <p><span class="yes-rsvps">{{upcoming_event.yes_rsvps}}</span> people said yes so far - <span class="spots-remaining">{{upcoming_event.remaining_slots}}</span> spots left.</p>
+    <p>Can you be there?</p>
+    {# <p><span class="yes-rsvps">{{upcoming_event.yes_rsvps}}</span> people said yes so far - <span class="spots-remaining">{{upcoming_event.remaining_slots}}</span> spots left.</p> #}
     <p><a href="{{ upcoming_event.get_absolute_url }}">RSVP Now!</a></p>
   </div>
   {% else %}

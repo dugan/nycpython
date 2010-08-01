@@ -31,7 +31,6 @@ class Command(BaseCommand):
                     yes_rsvps=event.rsvpcount,
                     no_rsvps=event.no_rsvpcount,
                     maybe_rsvps=event.maybe_rsvpcount,
-                    total_available_rsvps=event.json['guest_limit'],
                     published=True,
                 )
                 e.last_meetup_update = datetime.datetime.now()
