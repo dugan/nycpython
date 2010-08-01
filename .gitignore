@@ -5,6 +5,7 @@ parts/
 eggs/
 develop-eggs/
 src/nycpython.egg-info
+src/nycpython/settings/local.py
 downloads/
 .installed.cfg
 *.swp
