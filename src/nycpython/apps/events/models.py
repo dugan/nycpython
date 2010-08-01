@@ -6,9 +6,6 @@ from nycpython.apps.events.managers import EventManager
 
 from nycpython.lib.managers import get_live_manager
 
-
-
-
 class Event(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -26,6 +23,7 @@ class Event(models.Model):
     no_rsvps = models.IntegerField(default=0)
     maybe_rsvps = models.IntegerField(default=0)
     num_attendees = models.IntegerField(default=0)
+    total_available_rsvps = models.IntegerField(default=0)
 
     objects = EventManager()
     live = get_live_manager(EventManager)()
@@ -55,4 +53,4 @@ class Event(models.Model):
 
     @property
     def remaining_slots(self):
-        return 40 - self.num_attendees
+        return self.total_available_rsvps - self.num_attendees
