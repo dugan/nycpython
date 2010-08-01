@@ -2,13 +2,13 @@
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
 
 import jsonify
-from topics.forms import TopicForm, JSONTopicForm
+from topics.forms import TopicForm, JSONTopicForm, TopicSearchForm
 from topics.json import JSONTopic, JSONTopicList
 from topics.models import Topic
 from voting.views import vote_on_object
@@ -79,11 +79,13 @@ def topic_unvolunteer_json(request, topic_id):
     return topic_volunteer_json(request, topic_id, status=False)
 
 def index(request):
-    search_term = request.GET.get('q', None)
-    if search_term:
+    form = TopicSearchForm(request.GET)
+    if form.is_valid():
+        search_term = form.cleaned_data['title']
         topics = Topic.objects.filter(Q(title__icontains=search_term) |
                                       Q(description__icontains=search_term))
     else:
+        search_term = ''
         topics = Topic.objects.all()
     topics = list(topics)
 

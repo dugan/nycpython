@@ -94,12 +94,20 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.comments',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django_extensions',
     'south',
     'nycpython.apps.events',
+    'nycpython.apps.meetup',
+    'voting', 
+    'topics', 
     #'imagekit',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'nycpython.apps.meetup.backends.MeetupOauthBackend',
 )
 
 

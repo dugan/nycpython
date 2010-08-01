@@ -1,6 +1,6 @@
 body { color: #111; font-family: Arial; background-color: #eee; }
 /*h4 { line-height: 1.4em; }*/
-h3 { color: #dfbf36; padding-bottom: 15px; font-size: 24px; font-variant: small-caps; }
+h3 { color: #335f73; padding-bottom: 15px; font-size: 24px; font-variant: small-caps; }
 hr { background-color: #436176; height: 1px; border: none; display: block; clear: both;}
 a { color: #37a0b6; text-decoration: none; }
 a:hover { text-decoration: none; color: #178096; } 
@@ -11,7 +11,7 @@ a:hover { text-decoration: none; color: #178096; }
 #nav .selected a { color: white; }
 #masthead {background-color: #335f73; padding-top: 20px;}
 #masthead p { font-size: 1.3em; padding-top: 15px; color: #eee; padding-bottom: 15px; border-bottom: 1px solid #436176; margin-bottom: 30px;}
-#archives ul li { font-size: 18px; border-top: 1px solid #aaa; padding-top: 10px; padding-bottom: 10px;}
+#archives ul li { font-size: 14px; border-top: 1px solid #aaa; padding-top: 10px; padding-bottom: 10px;}
 #archives h4 { padding: 3px 0; margin: 7px 0; }
 #archives ul { border-bottom: 1px solid #aaa; margin-bottom: 5px; }
 #archives .month { font-variant: small-caps; padding-bottom: 5px; }
@@ -19,3 +19,10 @@ a:hover { text-decoration: none; color: #178096; }
 #footer p { padding: 5px 0; }
 .meeting { background-color: #ddd; border: solid 1px #aaa; padding: 5px; }
 .meeting h4 { font-size: 18px; font-variant: small-caps; padding: 5px; }
+.user_area { font-size: 14px; color: #eee; padding-top: 10px;}
+.yes-rsvps { font-size: 20px; font-style: bold; }
+.spots-remaining { font-size: 20px; font-style: bold; }
+.call-to-action { text-align: center; padding: 20px; }
+#suggest { padding-bottom: 20px;}
+#suggest form { padding-top: 10px; }
+#suggest input { margin-right: 10px; }

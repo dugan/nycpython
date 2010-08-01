@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import fields
+from django.forms.widgets import Textarea
 
 from topics.models import Topic
 
@@ -23,3 +24,6 @@ class JSONTopicForm(forms.ModelForm):
         if self.cleaned_data['volunteer']:
             topic.volunteers.add(creator)
         return topic
+
+class TopicSearchForm(forms.Form):
+    title = forms.CharField(widget=Textarea, required=False)

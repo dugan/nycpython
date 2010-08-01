@@ -5,7 +5,7 @@
         {% if has_voted %}
         <p class="voted">Voted</p>
         {% else %}
-        <p><a class="vote_up" id="vote_up_{{topic.id}}">Vote</a></p>
+        <p><form action="{% url topic_vote topic.id %}" method="post">{% csrf_token %}<input type="submit" value="vote" class="vote_up" id="vote_up_{{topic.id}}"></form></p>
         {% endif %}
     </div>
     <div class="grid_6">

@@ -25,6 +25,8 @@ def get_auth_url(callback):
     return authorize_url, session.request_token.secret
 
 def confirm_auth(request_key, request_secret, verifier):
+    import epdb
+    epdb.st()
     client = meetup_api_client.MeetupOAuth(settings.MEETUP_CONSUMER_KEY, 
                                            settings.MEETUP_CONSUMER_SECRET)
     session = client.new_session(request_key=request_key, request_secret=request_secret)

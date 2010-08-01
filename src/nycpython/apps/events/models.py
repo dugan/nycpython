@@ -52,3 +52,7 @@ class Event(models.Model):
             return self.get_next_by_date(published=True)
         except Event.DoesNotExist:
             return None
+
+    @property
+    def remaining_slots(self):
+        return 40 - self.num_attendees

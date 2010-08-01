@@ -9,6 +9,8 @@ urlpatterns = patterns('',
      (r'^admin/', include(admin.site.urls)),
     url(r'^$', 'nycpython.views.index'), 
     url(r'^events/', include('nycpython.apps.events.urls')),
+    url(r'^meetup/', include('nycpython.apps.meetup.urls')),
+    url(r'^topics/', include('topics.urls')),
 )
 
 if settings.LOCAL_DEVELOPMENT:

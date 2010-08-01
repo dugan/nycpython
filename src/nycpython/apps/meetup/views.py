@@ -7,11 +7,15 @@ from nycpython.lib.decorators import render_to
 
 @render_to('meetup/login.html')
 def begin_login(request):
+    import epdb
+    epdb.st()
     authorize_url, request_secret = get_auth_url('http://' + request.META['HTTP_HOST'] + '/meetup/confirm/')
     request.session['request_secret'] = request_secret
     return {'authorize_url' : authorize_url }
 
 def confirm(request):
+    import epdb
+    epdb.st()
     request_key = request.GET['oauth_token']
     request_secret = request.session['request_secret']
     verifier =  request.GET['oauth_verifier']
@@ -30,8 +34,6 @@ def logout(request):
 
 @render_to('meetup/test.html')
 def test(request):
-    import epdb
-    epdb.st()
     client = request.user.meetup.get_client()
     member = client.get_profile()
     return {'member' : member }
