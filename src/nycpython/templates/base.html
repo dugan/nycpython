@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-      <title>{% block title %}{% endblock %} | NYC Python</title>
+    <title>{% block title %}{% endblock %} | NYC Python</title>
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/reset.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ MEDIA_URL }}css/global.css" type="text/css" media="screen" />
@@ -12,27 +12,31 @@
     {% endblock %}
   </head>
   <body>
-      <div class="container_12">
-          <div class="grid_9">
-              &nbsp;
-          </div>
-    <div class="grid_3 user_area">
+    <div class="container_12">
+      <div class="grid_9">
+        &nbsp;
+      </div>
+      <div class="grid_3 user_area">
+        {% comment %}
         {% if user.is_anonymous %}
         <p> <a href="{% url meetup_login %}">Login via meetup</a></p>
         {% else %}
         <p><a href={{user.meetup.get_absolute_url}}>{{user.meetup.name}}</a> | <a href="{% url meetup_logout %}">Log out</a></p>
         {% endif %}
-  </div>
-  </div>
-      <div id="masthead">
-    <div class="container_12">
-          <h1 id="logo"><a href="/"><img src="{{ MEDIA_URL }}images/nyc_python_logo.png"></a></h1>
-        <!-- NYC is chunkfive and python is in futura with the pycon
-        logo as the o. Would be nice to bring the skyline into it
-        somehow. -->
-        <p>Your connection to the New York City the python community.</p>
-    </div>
+        {% endcomment %}
       </div>
+    </div>
+    <div id="masthead">
+      <div class="container_12">
+        <h1 id="logo"><a href="/"><img src="{{ MEDIA_URL }}images/nyc_python_logo.png"></a></h1>
+        {% comment %}
+        NYC is chunkfive and python is in futura with the pycon
+        logo as the o. Would be nice to bring the skyline into it
+        somehow.
+        {% endcomment %}
+        <p>Your connection to the New York City the python community.</p>
+      </div>
+    </div>
 
     <div class="container_12">
 

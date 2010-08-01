@@ -20,11 +20,19 @@ class Command(BaseCommand):
             response = client.get_events(group_id=settings.MEETUP_GROUP_ID, after=end_date.strftime('%m%d%Y'), before=start_date.strftime('%m%d%Y'))
             for event in response.results:
                 event_datetime = datetime.datetime.strptime(event.time, '%a %b %d %H:%M:%S %Z %Y')
-                e, created = Event.objects.get_or_create(title=event.name, meetup_id=event.id, date=event_datetime.date(),
-                                                doors_time=event_datetime.time(), start_time=event_datetime.time(),
-                                                num_attendees=event.rsvpcount, description=event.description,
-                                                yes_rsvps=event.rsvpcount, no_rsvps=event.no_rsvpcount,
-                                                maybe_rsvps=event.maybe_rsvpcount, published=True)
+                e, created = Event.objects.get_or_create(
+                    title=event.name,
+                    meetup_id=event.id,
+                    date=event_datetime.date(),
+                    doors_time=event_datetime.time(),
+                    start_time=event_datetime.time(),
+                    num_attendees=event.rsvpcount,
+                    description=event.description,
+                    yes_rsvps=event.rsvpcount,
+                    no_rsvps=event.no_rsvpcount,
+                    maybe_rsvps=event.maybe_rsvpcount,
+                    published=True,
+                )
                 e.last_meetup_update = datetime.datetime.now()
                 #if created:
                 #    print 'Created: %s' % event.name

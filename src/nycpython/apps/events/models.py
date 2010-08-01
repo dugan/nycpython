@@ -6,9 +6,6 @@ from nycpython.apps.events.managers import EventManager
 
 from nycpython.lib.managers import get_live_manager
 
-
-
-
 class Event(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
@@ -55,4 +52,5 @@ class Event(models.Model):
 
     @property
     def remaining_slots(self):
-        return 40 - self.num_attendees
+        # Information not provided by meetup's API
+        return 0
