@@ -4,12 +4,12 @@ from django.forms.widgets import Textarea
 
 from topics.models import Topic
 
-class TopicForm(forms.ModelForm):
+class EditTopicForm(forms.ModelForm):
     class Meta:
         model = Topic
         fields = ['description']
 
-class JSONTopicForm(forms.ModelForm):
+class CreateTopicForm(forms.ModelForm):
     volunteer = fields.BooleanField(required=False, initial=False)
 
     class Meta:
@@ -17,7 +17,7 @@ class JSONTopicForm(forms.ModelForm):
         fields = ['title', 'description']
 
     def save(self, creator=None):
-        topic = super(JSONTopicForm, self).save(commit=False)
+        topic = super(CreateTopicForm, self).save(commit=False)
         if creator:
             topic.creator = creator
         topic.save()
@@ -26,4 +26,4 @@ class JSONTopicForm(forms.ModelForm):
         return topic
 
 class TopicSearchForm(forms.Form):
-    title = forms.CharField(widget=Textarea, required=False)
+    title = forms.CharField(required=False)

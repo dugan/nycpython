@@ -1,4 +1,5 @@
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -8,7 +9,7 @@ from django.template import RequestContext
 from django.views.decorators.http import require_POST
 
 import jsonify
-from topics.forms import TopicForm, JSONTopicForm, TopicSearchForm
+from topics.forms import EditTopicForm, CreateTopicForm, TopicSearchForm
 from topics.json import JSONTopic, JSONTopicList
 from topics.models import Topic
 from voting.views import vote_on_object
@@ -36,7 +37,7 @@ def topic_detail(request, topic_id):
 
 def topic_edit(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
-    form = TopicForm(request.POST or None, instance=topic)
+    form = EditTopicForm(request.POST or None, instance=topic)
     if request.POST and form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('topic_detail',
@@ -46,27 +47,42 @@ def topic_edit(request, topic_id):
                               context_instance=RequestContext(request))
 
 @require_POST
+@login_required
 def create_topic_json(request):
-    form = JSONTopicForm(request.POST)
+    import epdb
+    epdb.st()
+    form = CreateTopicForm(request.POST)
     if form.is_valid():
         topic = form.save(creator=request.user)
-    else:
-        return jsonify.JSONFormError(form)
-    return jsonify.response(msg='Topic added.',
-                            topic=JSONTopic(topic).__freeze__(request))
+        return HttpResponseRedirect('/')
+    return HttpResponse(status=400)
 
-def topic_search_json(request):
-    key = request.GET['q']
+def topic_search_hijax(request):
+    key = request.GET['title']
     topics = Topic.objects.filter(Q(title__icontains=key) |
                                   Q(description__icontains=key))
-    return jsonify.response(topics=JSONTopicList(topics).__freeze__(request))
+    topics = list(topics)
+    for topic in topics:
+        # FIXME - Vote has a get_score_in_bulk operation that is broken.
+        # should look at why and send a patch
+        topic.score = Vote.objects.get_score(topic)['score']
+    topics.sort(key=lambda x: (-x.score, x.title))
+    if not topics:
+        return render_to_response("topics/includes/no_topics.html", 
+                                  {'search_term' : key },
+                                  context_instance=RequestContext(request))
+    return render_to_response("topics/includes/topic_list.html", 
+                              {'topics' : topics },
+                              context_instance=RequestContext(request))
 
+@login_required
 def topic_vote(request, topic_id):
     if request.method != 'POST':
         return HttpResponseNotFound
     return vote_on_object(request, Topic, 'up',
                           object_id=topic_id, allow_xmlhttprequest=True)
 
+@login_required
 def topic_volunteer_json(request, topic_id, status=True):
     topic = get_object_or_404(Topic, pk=topic_id)
     if status:
@@ -75,6 +91,7 @@ def topic_volunteer_json(request, topic_id, status=True):
         topic.volunteers.remove(request.user)
     return jsonify.response(msg='success')
 
+@login_required
 def topic_unvolunteer_json(request, topic_id):
     return topic_volunteer_json(request, topic_id, status=False)
 
@@ -88,7 +105,6 @@ def index(request):
         search_term = ''
         topics = Topic.objects.all()
     topics = list(topics)
-
     for topic in topics:
         # FIXME - Vote has a get_score_in_bulk operation that is broken.
         # should look at why and send a patch

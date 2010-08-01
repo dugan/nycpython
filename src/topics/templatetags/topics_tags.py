@@ -23,3 +23,7 @@ def render_topic_search_form(context, search_term=None):
 @register.inclusion_tag('topics/includes/user.html', takes_context=True)
 def render_topic_user(context, user):
     return { 'user' : user }
+
+@register.inclusion_tag('topics/includes/no_topics.html', takes_context=True)
+def render_no_topic_matches(context, search_term):
+    return { 'search_term' : search_term }

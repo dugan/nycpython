@@ -9,7 +9,7 @@ topic_detail_patterns = patterns('topics.views',
 
 urlpatterns = patterns('topics.views',
     url(r'^(?P<topic_id>\d+)/',   include(topic_detail_patterns)),
-    url(r'^search/$',             'topic_search_json', name='topic_search'),
+    url(r'^search/$',             'topic_search_hijax', name='topic_search'),
     url(r'^create/$',             'create_topic_json', name='create_topic'),
     url(r'^$',                    'index', name='topic_index'),
 )
