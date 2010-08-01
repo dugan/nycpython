@@ -1,0 +1,11 @@
+<div id="notopics">
+    <form action="{% url create_topic %}" method="POST">
+        {% csrf_token %}
+        <p><input type="hidden" name="title" value="{{search_term}}"></input></p>
+        <p><b>Would you like to suggest this topic?</b></p>
+        <p><input id="volunteer" name="volunteer" type="checkbox">Check here to volunteer to present on this topic (you can do this later)</input></p>
+        <input id="create" type="submit" value="Suggest">
+        <h3>No topics found</h3>
+        <p>No topics matched your search.</p>
+    </form>
+</div>

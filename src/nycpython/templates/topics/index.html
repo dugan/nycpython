@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block extra_style %}
+    <link rel="stylesheet" href="/media/topics/css/text.css">
+    <link rel="stylesheet" href="/media/topics/css/colorbox.css">
+    <link rel="stylesheet" href="/media/topics/css/style.css">
+{% endblock %}
+{% block extra_js %}
+    <script type="text/javascript" src="/media/topics/js/edit.js"></script>
+    <script type="text/javascript" src="/media/topics/js/jquery.colorbox-min.js"></script>
+{% endblock %}
+{% load topics_tags %}
+{% block body %}
+<form id="search_form" action="" method="GET">
+{% render_topic_search_form search_term %}
+</form>
+{% if topics %}
+    <div id="search_results">
+        <div id="topic_list">
+            {% if topics %}
+                {% render_topic_list topics %}
+            {% else %}
+                {% render_no_topic_matches search_term %}
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+{{block.super}}
+<script type="text/javascript">
+
+var create_topic_done = function(res, status) {
+  if (status == "success") {
+    var data = eval("(" + res.responseText + ")");
+    update_search();
+    display_success(data["msg"], $("#id_title"));
+  }
+  else {
+    display_error(res.responseText, $("#id_title"));
+  }
+  return false;
+}
+
+
+var create_topic = function() {
+  var title = $("#id_title").val()
+  if (title != "" ) {
+    var data = { title:title };
+    if($('#volunteer').is(':checked')) {
+        data['volunteer'] = 1;
+    }
+    var args = { type:"POST", url:"{% url create_topic %}", data:data, complete:create_topic_done };
+    $.ajax(args);
+  }
+  else {
+    display_error("Please enter a topic.", $("#id_title"));
+  }
+  return false;
+};
+
+var vote_done = function(res, status, topic_id) {
+    if (status == "success") {
+	var data = eval("(" + res.responseText + ")");
+	votes = data['score']['score'];
+	$("#vote_count_"+topic_id).html(votes);
+	$("#vote_up_"+topic_id).html("Voted");
+        return false;
+    }
+    else {
+	display_error(res.responseText, $(".vote"));
+    }
+}
+
+var add_vote = function() {
+    topic_id = $(this).attr('id').substring(8);
+
+    $.ajax({
+	type: "POST",
+	data: {HTTP_X_REQUESTED:'XMLHttpRequest'},
+	url: "{{request.META.SCRIPT_NAME}}/topics/" + topic_id + "/vote",
+	complete: function(res, status) {return vote_done(res, status, topic_id);}
+    });
+    return false;
+};
+
+var search_done = function(res, status) {
+    if (status == "success") {
+        $("#topic_list").html(res.responseText);
+	$(".vote_up").click(add_vote);
+    }
+    else {
+	display_error(res.responseText, $("#id_title"));
+    }
+}
+
+
+var update_search = function() {
+    $("#topic_list").html("Loading topics...");
+    var title = $("#id_title").val();
+    $.ajax({
+	type: "GET",
+	data: {"title" : title },
+	url: "{% url topic_search %}",
+	complete: search_done
+    });
+}
+
+
+$(document).ready(function() {
+{% if user.is_authenticated %}
+$("#create").click(create_topic);
+$(".vote_up").click(add_vote);
+{% else %}
+$("#create").colorbox({inline:true, href:"#reg_popup", transition: "fade"})
+$(".vote_up").colorbox({inline:true, href:"#reg_popup", transition: "fade"})
+{% endif %}
+$("#id_title").keyup(update_search);
+update_search();
+})
+</script>
+{% endblock %}
