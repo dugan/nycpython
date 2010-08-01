@@ -2,15 +2,6 @@
 {% block title %} NYC Python {% endblock %}
 
 {% block body %}
-
-<div id="suggest" class="alpha omega grid_9">
-    <h3>Suggest a meeting topic</h3> 
-    <p>Enter your own idea or <a href="{% url topic_index %}">view what others have suggested</a></p>
-    <form method="get" action="{% url topic_index %}">
-    <input type="text" name="q"><input type="submit" value="Search">
-    </form>
-</div>
-<hr/>
 <div id="upcoming" class="alpha grid_9">
   {% if upcoming_event %}
   <h3>Next Meeting</h3>
@@ -20,13 +11,8 @@
   <div class="call-to-action">
   <p> Can you be there?</p>
   <p><span class="yes-rsvps">{{upcoming_event.yes_rsvps}}</span> people said yes so far - <span class="spots-remaining">{{upcoming_event.remaining_slots}}</span> spots left.</p>
-  <form action="/meetup/rsvp" method="post">
-  <input type="submit" value="I'll be there!">
-  </form>
+  <p><a href="{{ upcoming_event.get_absolute_url }}">RSVP Now!</a></p>
   </div>
-
-
-
   {% else %}
   <p>No next event is schedule yet.  <a href="http://www.meetup.com/nycpython/">Join the group</a> to get notified when one is scheduled </p>
   {% endif %}
