@@ -1,0 +1,29 @@
+switch to templatetags for render_topic_list, render_search_form, display_user.
+switch to hijax for search, create_topics
+display better username
+
+
+
+* do I really need jsonify?
+* topic live or 404?
+* volunteer/unvolunteer
+
+API:
+
+render_topic_list [search_term]
+ => return rendered templates (w/o any extra css)
+render search_form [search_term]
+ => return topic search form 
+display_user user_obj
+ => display user
+render_topic_detail topic
+ => render topic template
+
+views:
+    topic_search_json
+    topic_search_hijax
+    create_topic_json - returns msg saying topic added and json version of topic list view
+    create_topic_hijax - returns topic list view.
+    vote_on_object
+    topic_detail - empty page except for render_topic_detail
+    topic_edit - ???

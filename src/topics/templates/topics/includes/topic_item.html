@@ -1,0 +1,22 @@
+{% load topics_tags %}
+<div class="topic">
+    <div class="grid_2">
+        <p class="vote_count" id="vote_count_{{topic.id}}">{{topic.votes}}</p>
+        {% if has_voted %}
+        <p class="voted">Voted</p>
+        {% else %}
+        <p><a class="vote_up" id="vote_up_{{topic.id}}">Vote</a></p>
+        {% endif %}
+    </div>
+    <div class="grid_6">
+        <a href="{{topic.get_absolute_url}}">{{topic.title}}</a>
+        <div class="description">{{topic.description}}</div>
+        <p><div class="byline">Suggested by {% render_topic_user topic.creator %}
+            {% if presenter %}
+            <span class="presenter">(Has presenter)</span>
+            {% else %}
+            <span class="presenter">(No presenter - volunteer!)</span>
+            {% endif %}
+        </div>
+    </div>
+</div>

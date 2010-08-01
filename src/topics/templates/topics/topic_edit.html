@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load voting_tags %}
+{% block title %}{{topic.title}}{% endblock %}
+{% block body %}
+<p>
+<h3>{{topic.title}}</h3>
+<p>Suggested by: {{topic.creator}}</p>
+<p>Created on: {{topic.timestamp|date}}</p>
+
+</p>
+<div class="topic_form">
+<form method="POST" action="">
+    {% csrf_token %}
+    Longer Description:
+    <div>
+    {{form.description}}
+    </div>
+    <p> <input type="submit" value="Update"/> </p>
+</form>
+</div>
+
+{% endblock %}

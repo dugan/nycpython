@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load voting_tags %}
+{% block title %}{{topic.title}}{% endblock %}
+{% block body %}
+<p>
+<h3>{{topic.title}}
+</h3>
+</p>
+
+<p>
+<div><strong>Description:</strong>
+{% ifequal topic.creator user %}
+<a href="{% url topic_edit topic.id %}">(Edit)</a>
+{% endifequal %}
+</div>
+{% if topic.description %}
+<div>{{topic.description}}</div>
+{% else %}
+<div>No description set!</div>
+{% endif %}
+</p>
+
+<p><b>Suggested by:</b> <a href="">{{topic.creator}}</a> <b>Created on:</b> {{topic.timestamp|date}}</p>
+<p>People Volunteering to Present: 
+{% if user.is_authenticated %}
+<span id="unvolunteer" class="{% if not is_presenter %}hidden{%endif%}">
+    (<a id="unvolunteer_href" href="#">Unvolunteer</a>)
+</span>
+<span id="volunteer" class="{% if is_presenter %}hidden{%endif%}">
+(<a id="volunteer_href" href="#">Volunteer</a>)</span>
+{% endif %}
+<p>
+
+<span class="{%if not is_presenter %}hidden{% endif %}" id="you_present">
+    {{ user.meetup.photo_url }}
+<br/>
+<b>you</b>
+</span>
+{%for volunteer in volunteers %}
+<div><a href="">{{ volunteer.meetup.photo_url }}<br/>{{volunteer}}</a></div>
+{%endfor%} 
+<form method="POST" action="{% url topic_vote topic.id %}">
+{% score_for_object topic as score %}
+{% vote_by_user user on topic as vote %}
+<strong>Current Votes:</strong> <span id="vote_count_{{ topic.id }}">{{ score.score }}</span>
+{% if vote %}
+ (including yours!)
+{% else %}
+    <input type="submit" value="vote"/>
+{% endif %}
+</form>
+</p>
+
+<!--
+<p>Voters: {% for vote in all_votes %}
+<a href="" class="voterref">{{vote.user}}</a>
+{% endfor %}
+</p>
+--!>
+
+
+</p>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+var toggle_present_done = function(res, status) {
+    /* this seems...suboptimal. */
+    $("#you_present").toggle();
+    $("#volunteer").toggle();
+    $("#unvolunteer").toggle();
+}
+
+var toggle_volunteer = function(on) {
+    if(on) {
+	var url = "{% url topic_volunteer topic.id %}";
+    } else {
+	var url = "{% url topic_unvolunteer topic.id %}";
+    }
+    var args = { type:"POST", url: url,
+		data:{}, complete:toggle_present_done };
+    $.ajax(args);
+}
+
+$(document).ready(function() {
+    $("#volunteer_href").click(function() { toggle_volunteer(true);});
+    $("#unvolunteer_href").click(function() { toggle_volunteer(false); });
+}
+);
+</script>
+{% endblock %}

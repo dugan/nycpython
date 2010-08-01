@@ -1,0 +1,8 @@
+{% load topics_tags %}
+<ol class="topics" id="topics">
+    {% for topic in topics %}
+        <li>
+        {% render_topic_item topic %}
+        </li>
+    {% endfor %}
+</ol>
