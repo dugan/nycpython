@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.http import HttpResponse
 from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
@@ -11,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^events/', include('nycpython.apps.events.urls')),
     url(r'^meetup/', include('nycpython.apps.meetup.urls')),
     url(r'^topics/', include('topics.urls')),
+    url(r'freenode32gf56gd.ver', lambda x: HttpResponse('hi freenode')),
 )
 
 if settings.LOCAL_DEVELOPMENT:
